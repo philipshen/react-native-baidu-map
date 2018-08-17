@@ -3,8 +3,7 @@
  */
 
 import React, {
-  Component,
-  PropTypes
+  Component
 } from 'react';
 
 import {
@@ -15,11 +14,8 @@ import {
 
 import {
   Button,
-  AppRegistry,
   StyleSheet,
-  Text,
-  View,
-  TouchableHighlight
+  View
 } from 'react-native';
 
 import Dimensions from 'Dimensions';
@@ -48,9 +44,6 @@ export default class BaiduMapDemo extends Component {
         title: ""
       }]
     };
-  }
-
-  componentDidMount() {
   }
 
   render() {

@@ -1,5 +1,4 @@
 import {
-  requireNativeComponent,
   NativeModules,
   Platform,
   DeviceEventEmitter
@@ -7,7 +6,6 @@ import {
 
 import React, {
   Component,
-  PropTypes
 } from 'react';
 
 

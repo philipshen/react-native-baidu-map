@@ -7,11 +7,7 @@
 import React, { Component } from 'react';
 
 import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight
+  AppRegistry
 } from 'react-native';
 
 import BaiduMapDemo from './BaiduMapDemo';
