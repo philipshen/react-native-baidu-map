@@ -1,6 +1,6 @@
 {
-  "name": "rn-baidu-map",
-  "version": "0.0.1",
+  "name": "rn-baidu-ditu",
+  "version": "0.0.2",
   "description": "philipshen's fork of react-native-baidu-map. Publishing myself b/c the original repo isn't being maintained & I need to use this.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/philipshen/rn-baidu-map"
+    "url": "https://github.com/philipshen/react-native-baidu-map"
   },
   "keywords": [
     "Baidu Map",
@@ -17,7 +17,7 @@
   "author": "philipshen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/philipshen/rn-baidu-map/issues"
+    "url": "https://github.com/philipshen/react-native-baidu-map/issues"
   },
-  "homepage": "https://github.com/philipshen/rn-baidu-map#readme"
+  "homepage": "https://github.com/philipshen/react-native-baidu-map#readme"
 }
