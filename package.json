@@ -1,6 +1,6 @@
 {
   "name": "rn-baidu-ditu",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "philipshen's fork of react-native-baidu-map. Publishing myself b/c the original repo isn't being maintained & I need to use this.",
   "main": "index.js",
   "scripts": {

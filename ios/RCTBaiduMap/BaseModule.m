@@ -18,8 +18,11 @@
 }
 
 -(void)sendEvent:(NSString *)name body:(NSMutableDictionary *)body {
-    [self.bridge.eventDispatcher sendDeviceEventWithName:name body:body];
+    [self sendEventWithName:name body:body];
 }
 
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"onGetReverseGeoCodeResult", @"onGetGeoCodeResult"];
+}
 
 @end

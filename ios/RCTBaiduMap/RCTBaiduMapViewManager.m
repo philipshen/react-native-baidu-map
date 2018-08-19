@@ -41,7 +41,7 @@ RCT_CUSTOM_VIEW_PROPERTY(center, CLLocationCoordinate2D, RCTBaiduMapView) {
     return mapView;
 }
 
--(void)mapview:(BMKMapView *)mapView
+-(void)mapview:(RCTBaiduMapView *)mapView
  onDoubleClick:(CLLocationCoordinate2D)coordinate {
     NSLog(@"onDoubleClick");
     NSDictionary* event = @{
@@ -54,7 +54,7 @@ RCT_CUSTOM_VIEW_PROPERTY(center, CLLocationCoordinate2D, RCTBaiduMapView) {
     [self sendEvent:mapView params:event];
 }
 
--(void)mapView:(BMKMapView *)mapView
+-(void)mapView:(RCTBaiduMapView *)mapView
 onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     NSLog(@"onClickedMapBlank");
     NSDictionary* event = @{
@@ -67,7 +67,7 @@ onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     [self sendEvent:mapView params:event];
 }
 
--(void)mapViewDidFinishLoading:(BMKMapView *)mapView {
+-(void)mapViewDidFinishLoading:(RCTBaiduMapView *)mapView {
     NSDictionary* event = @{
                             @"type": @"onMapLoaded",
                             @"params": @{}
@@ -75,7 +75,7 @@ onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     [self sendEvent:mapView params:event];
 }
 
--(void)mapView:(BMKMapView *)mapView
+-(void)mapView:(RCTBaiduMapView *)mapView
 didSelectAnnotationView:(BMKAnnotationView *)view {
     NSDictionary* event = @{
                             @"type": @"onMarkerClick",
@@ -90,7 +90,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
     [self sendEvent:mapView params:event];
 }
 
-- (void) mapView:(BMKMapView *)mapView
+- (void) mapView:(RCTBaiduMapView *)mapView
  onClickedMapPoi:(BMKMapPoi *)mapPoi {
     NSLog(@"onClickedMapPoi");
     NSDictionary* event = @{
@@ -105,7 +105,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
     [self sendEvent:mapView params:event];
 }
 
-- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
+- (BMKAnnotationView *)mapView:(RCTBaiduMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
     if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
         BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
         newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
@@ -115,7 +115,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
     return nil;
 }
 
--(void)mapStatusDidChanged: (BMKMapView *)mapView	 {
+-(void)mapStatusDidChanged: (RCTBaiduMapView *)mapView	 {
     NSLog(@"mapStatusDidChanged");
     CLLocationCoordinate2D targetGeoPt = [mapView getMapStatus].targetGeoPt;
     NSDictionary* event = @{
@@ -133,6 +133,7 @@ didSelectAnnotationView:(BMKAnnotationView *)view {
 }
 
 -(void)sendEvent:(RCTBaiduMapView *) mapView params:(NSDictionary *) params {
+    NSLog(@"Sending event with params %@", params);
     if (!mapView.onChange) {
         return;
     }

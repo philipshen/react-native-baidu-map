@@ -67,7 +67,6 @@ RCT_EXPORT_METHOD(reverseGeoCode:(double)lat lng:(double)lng) {
     if(flag) {
         NSLog(@"逆向地理编码发送成功");
     }
-    //[reverseGeoCodeSearchOption release];
 }
 
 RCT_EXPORT_METHOD(reverseGeoCodeGPS:(double)lat lng:(double)lng) {
@@ -118,7 +117,7 @@ RCT_EXPORT_METHOD(reverseGeoCodeGPS:(double)lat lng:(double)lng) {
     
     if (error == BMK_SEARCH_NO_ERROR) {
         // 使用离线地图之前，需要先初始化百度地图
-        [[BMKMapView alloc] initWithFrame:CGRectZero];
+//        [[BMKMapView alloc] initWithFrame:CGRectZero];
         // 离线地图api或去citycode
         BMKOfflineMap *offlineMap = [[BMKOfflineMap alloc] init];
         NSArray *cityCodeArr = [offlineMap searchCity:result.addressDetail.city];
@@ -200,6 +199,10 @@ RCT_EXPORT_METHOD(reverseGeoCodeGPS:(double)lat lng:(double)lng) {
     CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(testdic);
     
     return baiduCoor;
+}
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"onGetReverseGeoCodeResult", @"onGetGeoCodeResult"];
 }
 
 

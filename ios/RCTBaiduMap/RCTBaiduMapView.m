@@ -39,7 +39,7 @@
 }
 
 -(void)setMarkers:(NSArray *)markers {
-    int markersCount = [markers count];
+    long markersCount = [markers count];
     if(_annotations == nil) {
         _annotations = [[NSMutableArray alloc] init];
     }
@@ -61,16 +61,16 @@
             }
         }
         
-        int _annotationsCount = [_annotations count];
+        long _annotationsCount = [_annotations count];
         
-        NSString *smarkersCount = [NSString stringWithFormat:@"%d", markersCount];
-        NSString *sannotationsCount = [NSString stringWithFormat:@"%d", _annotationsCount];
-        NSLog(smarkersCount);
-        NSLog(sannotationsCount);
+        NSString *smarkersCount = [NSString stringWithFormat:@"%lu", markersCount];
+        NSString *sannotationsCount = [NSString stringWithFormat:@"%lu", _annotationsCount];
+        NSLog(@"%@", smarkersCount);
+        NSLog(@"%@", sannotationsCount);
         
         if(markersCount < _annotationsCount) {
-            int start = _annotationsCount - 1;
-            for(int i = start; i >= markersCount; i--) {
+            long start = _annotationsCount - 1;
+            for(long i = start; i >= markersCount; i--) {
                 BMKPointAnnotation *annotation = [_annotations objectAtIndex:i];
                 [self removeAnnotation:annotation];
                 [_annotations removeObject:annotation];

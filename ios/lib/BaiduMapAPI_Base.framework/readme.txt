@@ -4,7 +4,7 @@
 
 --------------------------------------------------------------------------------------
 
-iOS 地图 SDK v3.0.0是适用于iOS系统移动设备的矢量地图开发包
+iOS 地图 SDK v4.1.1是适用于iOS系统移动设备的矢量地图开发包
 
 --------------------------------------------------------------------------------------
 
@@ -34,81 +34,111 @@ LBS云检索：支持查询存储在LBS云内的自有数据；
 
 
 --------------------------------------------------------------------------------------
-
-注意：百度地图iOS SDK向广大开发者提供了配置更简单的 .framework形式的开发包，请开发者选择此种类型的开发包使用。
-
-自v2.9.0起，百度地图iOS SDK将不再提供 .a形式的开发包。
-   
-自v2.9.0起，采用分包的形式提供 .framework包，请广大开发者使用时确保各分包的版本保持一致。
-
-其中BaiduMapAPI_Base.framework为基础包，使用SDK任何功能都需导入，其他分包可按需导入。
-
-
----------------------------------------------------------------------------------------
-
- 【 新版提示 】
- 1.自v3.0.0起，iOS SDK全面支持ipv6网格
  
- 【 新  增 】
-   基础地图
- 1、新增室内地图功能
- 新增室内地图信息类：BMKBaseIndoorMapInfo
- BMKMapView新增接口:
- /// 设定地图是否显示室内图（包含室内图标注），默认不显示
- @property (nonatomic, assign) BOOL baseIndoorMapEnabled;
- /// 设定室内图标注是否显示，默认YES，仅当显示室内图（baseIndoorMapEnabled为YES）时生效
- @property (nonatomic, assign) BOOL showIndoorMapPoi;
- // 设置室内图楼层
- - (BMKSwitchIndoorFloorError)switchBaseIndoorMapFloor:(NSString*)strFloor withID:(NSString*)strID;
- // 获取当前聚焦的室内图信息
- - (BMKBaseIndoorMapInfo*)getFocusedBaseIndoorMapInfo;
- BMKMapViewDelegate新增接口：
- //地图进入/移出室内图会调用此接口
- - (void)mapview:(BMKMapView *)mapView baseIndoorMapWithIn:(BOOL)flag baseIndoorMapInfo:(BMKBaseIndoorMapInfo *)info;
- 2、普通地图与个性化地图切换可以自由切换，BMKMapView新增接口:
- + (void)enableCustomMapStyle:(BOOL) enable;
- 3、个性化地图配置json文件出错时，打印log提示
- 4、设置mapPadding时可控制地图中心是否跟着移动，BMKMapView新增接口:
- @property (nonatomic) BOOL updateTargetScreenPtWhenMapPaddingChanged;
- 5、BMKMapPoi中新增属性：
- ///点标注的uid，可能为空
- @property (nonatomic,strong) NSString* uid;
  
-   检索功能
- 1、新增室内POI检索
- 新增室内POI检索参数信息类：BMKPoiIndoorSearchOption
- 新增室内POI搜索结果类：BMKPoiIndoorResult
- 新增室内POI信息类：BMKPoiIndoorInfo
- BMKPoiSearch新增接口：
- //poi室内检索
- - (BOOL)poiIndoorSearch:(BMKPoiIndoorSearchOption*)option;
- BMKPoiSearchDelegate新增接口：
- //返回POI室内搜索结果
-- (void)onGetPoiIndoorResult:(BMKPoiSearch*)searcher result:(BMKPoiIndoorResult*)poiIndoorResult errorCode:(BMKSearchErrorCode)errorCode;
- 2、驾车路线规划结果新增3个属性：打车费用信息、拥堵米数、红路灯个数，BMKDrivingRouteLine新增接口：
- ///路线红绿灯个数
- @property (nonatomic, assign) NSInteger lightNum;
- ///路线拥堵米数，发起请求时需设置参数 drivingRequestTrafficType = BMK_DRIVING_REQUEST_TRAFFICE_TYPE_PATH_AND_TRAFFICE 才有值
- @property (nonatomic, assign) NSInteger congestionMetres;
- ///路线预估打车费(元)，负数表示无打车费信息
- @property (nonatomic, assign) NSInteger taxiFares;
- 3、busline检索新增参考票价和上下线行信息，BMKBusLineResult新增接口：
- ///公交线路方向
- @property (nonatomic, strong) NSString* busLineDirection;
- ///起步票价
- @property (nonatomic, assign) CGFloat basicPrice;
- ///全程票价
- @property (nonatomic, assign) CGFloat totalPrice;
- 4、poi检索结果新增是否有全景信息，BMKPoiInfo新增接口：
- @property (nonatomic, assign) BOOL panoFlag;
+ 【 新 版 提 示 】
+ 【 注 意 】
+ 1、自v3.2.0起，百度地图iOS SDK全面支持HTTPS，需要广大开发者导入第三方openssl静态库：libssl.a和libcrypto.a（存放于thirdlib目录下）
+ 添加方法：在 TARGETS->Build Phases-> Link Binary With Libaries中点击“+”按钮，在弹出的窗口中点击“Add Other”按钮，选择libssl.a和libcrypto.a添加到工程中 。
  
-   计算工具
- 新增调起百度地图客户端全景功能
- 新增调起百度地图全景类：BMKOpenPanorama
- 新增调起百度地图全景参数类：BMKOpenPanoramaOption
- 新增调起百度地图全景delegate：BMKOpenPanoramaDelegate
+ 2、支持CocoaPods导入
+ pod setup //更新CocoPods的本地库
+ pod search BaiduMapKit  //查看最新地图SDK
  
- 【 修  复 】
- 1、修复反复添加移除离线瓦片图时偶现的crash问题
- 2、修复上传AppStore时提示访问私有api:-setOverlayGeometryDelegate:的问题
- 3、修复地图网络解析时偶现的crash问题
+
+【新增】
+1. 个性化地图新增缩放级别控制
+    功能说明：
+        个性化地图的自定义样式可以根据地图缩放级别进行设置，即不同的缩放级别可以呈现不同的自定义样式。
+    接口说明：
+        A. Json样式的stylers中新增："level"字段，用来控制样式的生效级别，如果stylers中不配置"level"字段，则认为该样式在所有地图缩放级别生效;
+	B. "level"字段的值在Json样式中以字符串表现，取值对标普通地图的缩放级别范围[4-21]。如果该字段值小于地图缩放级别的最小值，则取地图缩放级别的最小值；如果该字段大于地图缩放级别的最大值，则取地图缩放缩放级别的最大值；
+        C. 如果Json样式，存在未指定缩放级别样式1和指定了生效的缩放级别样式2的同一元素，则在指定的缩放级别展示样式2，在其他缩放级别展示样式1；
+    使用示例：
+        [
+				    {
+                "featureType":"green",
+                "elementType":"geometry",
+                "stylers": {
+                "color": "#232c3aff",
+                "level": "14"
+                }
+            }
+        ]
+        
+2. 个性化地图新增宽度样式
+    功能说明：
+	宽度样式可以控制点元素，线元素的宽度展示，当前生效的元素包括：点元素（poi类元素，字体），线元素（如高速，地铁等）；
+			
+    接口说明：
+       A. Json样式的stylers中新增: "weight"字段，用于指定元素要展示的宽度，不设置该字段则以默认样式宽度展示；
+       B. "weight"字段的值类型在Json样式中以字符串表现，取值范围为[0, 255]，当取值小于0时，实际以0值生效，当大于255时，以255生效；
+       
+    使用示例：
+      [
+         {
+            "featureType":"green",
+            "elementType":"geometry",
+            "stylers": {
+            "weight": "10"
+            }
+         }
+      ]
+
+3. 个性化地图开放更加细粒度的元素种类，提供更强的个性化能力。分别如下
+   面元素，支持的样式同之前的面元素
+       "estate"                         // 人造区域之地产小区区域
+       "shopping"                       // 人造区域之购物区域，包括购物中心和商场
+       "transportation"                 // 人造区域之交通设施区域，包括火车站，飞机场，跑到面，航站楼面，机场内停车场面，其它面
+ 
+   点元素，支持的样式同之前的点元素
+       "estatelabel"                    // 房产小区标注
+       "businesstowerlabel"             // 商务大厦标注
+       "companylabel"                   // 公司企业标注
+       "governmentlabel"                // 政府机构标注
+       "restaurantlabel"                // 餐饮类标注
+       "hotellabel"                     // 宾馆类标注
+       "shoppinglabel"                  // 购物类标注
+       "lifeservicelabel"               // 生活服务类标注
+       "carservicelabel"                // 汽车服务类标注
+       "transportationlabel"            // 交通设施类标注
+       "financelabel"                   // 金融类标注
+       "otherlabel"                     // 其它类标注
+
+4. 同一元素多个样式同时同级别设置，生效策略做调整
+    功能说明：
+       因为涉及到样式缩放级别的控制，所以可见性(visibility)，颜色（color），宽度（weight）等样式的生效策略做了调整，
+       即：当同一元素的可见性（visibility）分别颜色（color），宽度（weight）一起设置时，以最后设置的样式生效；
+       
+    使用示例： 
+      [ 
+         {
+            "featureType":"green",
+            "elementType":"geometry",
+            "stylers": {
+                "weight": "10"
+            }
+         },
+         {
+            "featureType":"green",
+            "elementType":"geometry",
+            "stylers": {
+                 "visibility": "off"
+            }
+         }
+      ] 
+   实际效果则以visibility样式生效。（注意：visibility默认为on）
+ 
+【优化】
+ 1.升级POI检索服务，包括城市检索、矩形检索、周边检索、详情检索、室内检索。注意：部分请求字段与结果字段会有变动，不完全向下兼容；请求和响应类对应的修改主要是：
+    A.每种POI检索对应一个请求参数类，命名规则为 BMKPOIXXXSearchOption，主要变化为支持多个关键字检索、支持多标签检索、支持按过滤条件检索等。
+    B.POI城市检索、POI周边检索、POI矩形区域检索服务都使用 BMKPOISearchResult 类
+      POI详情检索使用 BMKPOIDetailSearchResult 类
+      POI室内检索使用 BMKPOIIndoorSearchResult 类
+ 2.升级地理编码、反地理编码服务；
+ 3.优化引擎内存管理；
+ 4.优化资源文件体积，mapapi.bundle的体积由6.4MB减小到4.3MB，减少33%；
+ 
+【修复】
+ 1.修复某些场景下极小概率出现的crash。
+

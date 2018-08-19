@@ -45,13 +45,15 @@ export default {
   },
   reverseGeoCodeGPS(lat, lng) {
     return new Promise((resolve, reject) => {
+      console.log("Firing")
       try {
         _module.reverseGeoCodeGPS(lat, lng);
       }
       catch (e) {
         reject(e);
         return;
-      }
+      } 
+      console.log("Listening in...")
       DeviceEventEmitter.once('onGetReverseGeoCodeResult', resp => {
         resp.latitude = parseFloat(resp.latitude);
         resp.longitude = parseFloat(resp.longitude);

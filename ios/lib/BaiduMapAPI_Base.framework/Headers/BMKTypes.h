@@ -12,8 +12,9 @@
 #import <UIKit/UIKit.h>
 typedef enum
 {
-    BMK_COORDTYPE_GPS = 0, ///GPS设备采集的原始GPS坐标
-    BMK_COORDTYPE_COMMON,  ///google地图、soso地图、aliyun地图、mapabc地图和amap地图所用坐标
+    BMK_COORDTYPE_GPS = 0, ///GPS设备采集的原始GPS坐标（WGS-84）
+    BMK_COORDTYPE_COMMON,  ///GCJ坐标，google地图、soso地图、aliyun地图、mapabc地图和amap地图所用坐标
+    BMK_COORDTYPE_BD09LL,    ///bd09ll 百度经纬度坐标
 } BMK_COORD_TYPE;
 enum {
     BMKMapTypeNone       = 0,               ///< 空白地图
@@ -61,6 +62,10 @@ typedef enum{
     BMK_SEARCH_PERMISSION_UNFINISHED,///还未完成鉴权，请在鉴权通过后重试
     BMK_SEARCH_INDOOR_ID_ERROR,///室内图ID错误
     BMK_SEARCH_FLOOR_ERROR,///室内图检索楼层错误
+    BMK_SEARCH_INDOOR_ROUTE_NO_IN_BUILDING,///起终点不在支持室内路线的室内图内
+    BMK_SEARCH_INDOOR_ROUTE_NO_IN_SAME_BUILDING,///起终点不在同一个室内
+    BMK_SEARCH_PARAMETER_ERROR,///参数错误
+    BMK_SEARCH_SERVER_ERROR,//服务器错误
 }BMKSearchErrorCode;
 
 //调起百度地图结果状态码
@@ -149,4 +154,37 @@ UIKIT_EXTERN const BMKMapRect BMKMapRectNull;
 @property (nonatomic) CLLocationCoordinate2D pt;
 @end
 
+///室内路线检索节点信息
+@interface BMKIndoorPlanNode : NSObject
+///节点所在楼层
+@property (nonatomic, retain) NSString* floor;
+///节点坐标
+@property (nonatomic) CLLocationCoordinate2D pt;
+@end
 
+
+///此类表示地址结果的层次化信息
+@interface BMKAddressComponent : NSObject
+// 国家
+@property (nonatomic, copy) NSString *country;
+// 省份名称
+@property (nonatomic, copy) NSString *province;
+// 城市名称
+@property (nonatomic, copy) NSString *city;
+// 区县名称
+@property (nonatomic, copy) NSString *district;
+// 乡镇
+@property (nonatomic, copy) NSString *town;
+// 街道名称
+@property (nonatomic, copy) NSString *streetName;
+// 街道号码
+@property (nonatomic, copy) NSString *streetNumber;
+/// 行政区域编码
+@property (nonatomic, copy) NSString *adCode;
+/// 国家代码
+@property (nonatomic, copy) NSString *countryCode;
+// 相对当前坐标点的方向，当有门牌号的时候返回数据
+@property (nonatomic, copy) NSString *direction;
+// 相对当前坐标点的距离，当有门牌号的时候返回数据
+@property (nonatomic, copy) NSString *distance;
+@end
